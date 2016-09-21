@@ -58,11 +58,13 @@ int main()
           printf("crash: command %s not found.\n", args[0]);
           exit(EXIT_FAILURE);
         }
+        /* parent process */
         else{
           /* waits until child process complete */
           wait(NULL);
         }
       }
+      /* fork unsuccessful */
       else {
         fprintf(stderr, "Child process failed.\n");
       }

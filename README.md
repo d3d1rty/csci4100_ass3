@@ -6,7 +6,7 @@ This project is an assignment for CSCI 4100 (Operating System Architecture) cour
 This program is a basic shell written in C that executes system commands.
 
 ##Usage
-Compile with `gcc -o crash assign3.c`
+Compile with `gcc -o crash davisAssign3.c`
 Execute with `./crash`
 Enter `exit` to quit the shell.
 
