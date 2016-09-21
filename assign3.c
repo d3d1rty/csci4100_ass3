@@ -1,4 +1,4 @@
-/* YOUR NAME HERE
+/* Richard Davis
  * CSCI 4100
  * Programming Assignment 3
  * The Command Resolution and Activation SHell (aka CRASH)
@@ -23,7 +23,51 @@ void read_line(char *line);
 /* main function for the CRASH shell program. */
 int main()
 {
-  /* YOUR CODE HERE */
+  /* variable declarations */
+  char line[MAX_LINE] = "";
+  char *args[MAX_ARGS];
+  pid_t cPID;
+
+  /* infinite loop */
+  for(;;){
+    /* the prompt indicator */
+    printf("$");
+    /* gets a line from the stdin */
+    read_line(line);
+    /* skips to next loop iteration if blank */
+    if(is_blank(line) == 1){
+      continue;
+    }
+    /* exits the shell if 'exit' entered */
+    if(strcmp(line, "exit") == 0){
+      printf("[exiting crash shell]\n");
+      exit(0);
+    }
+    else{
+      /* parses the command and arguments */
+      parse_args(line, args);
+      /* forks a process */
+      cPID = fork();
+      /* if value is >= 0, fork successful */
+      if(cPID >= 0){
+        /* child process */
+        if(cPID == 0){
+          /* executes command */
+          execvp(args[0], args);
+          /* exits if command fails */
+          printf("crash: command %s not found.\n", args[0]);
+          exit(EXIT_FAILURE);
+        }
+        else{
+          /* waits until child process complete */
+          wait(NULL);
+        }
+      }
+      else {
+        fprintf(stderr, "Child process failed.\n");
+      }
+    }
+  }
 }
 
 /* determines if a command line is empty or made up of only whitespace.
